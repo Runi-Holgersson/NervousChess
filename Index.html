@@ -3,9 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <title>Chess</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+
+        td {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #000;
+            background-color: #EEEEEE;
+
+
+        }
+
+        tr {
+            width: 50px;
+            height: 50px;
+        }
+
+        .black {
+            background-color: #454545;
+        }
+
+        .white {
+            background-color: #cccccc;
+        }
+
+        td > img {
+            height: 30px;
+            vertical-align: middle;
+            display: block;
+            margin: 0 auto;
+            transition: height 0.2s ease-in-out;
+        }
+
+        .active {
+            height: 30px;
+            vertical-align: middle;
+            display: block;
+            margin: 0 auto;
+            animation-name: pulsation;
+            animation: pulsation 1s ease-in-out infinite;
+
+        }
+
+        @keyframes pulsation {
+            50% {
+                height: 20px;
+            }
+        }
+
+        img:hover {
+            height: 20px;
+        }
+
+    </style>
 </head>
 <body>
 <table id="board"></table>
+
 <script src="chess.js"></script>
 </body>
 </html>
