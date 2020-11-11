@@ -38,6 +38,8 @@ let initChess = {
     figures,
     containerElement: null,
     cellElements: [],
+    selectedFigure: null,
+    selectedCell: null,
     renderBoard() {
         this.containerElement = document.getElementById(`board`);
         this.containerElement.innerHTML = ``;
@@ -49,7 +51,7 @@ let initChess = {
                 const tdElement = document.createElement(`td`);
                 tdElement.setAttribute(`id`, `${this.settings.colsNames[cell]}${this.settings.rowsNames[row]}`);
                 this.cellElements.push(tdElement);
-                                trElement.appendChild(tdElement);
+                trElement.appendChild(tdElement);
                 if ((row + 1) % 2 !== 0 && (cell + 1) % 2 !== 0 || (row + 1) % 2 === 0 && (cell + 1) % 2 === 0) {
                     tdElement.classList.add(`white`);
                 } else {
@@ -95,23 +97,55 @@ let initChess = {
     },
     focus() {
         const imgCollection = document.querySelectorAll(`td>img`); //htmlCollection
+
         for (let i = 0; i < imgCollection.length; i++) {
             imgCollection[i].addEventListener(`click`,
-                () => {
-                    const movingFigure = event.target;
-                    movingFigure.classList.toggle(`active`);
-
-                   for (let j = 0; j < imgCollection.length; j++){
-                       console.log(imgCollection[j].parentElement.id);
-                        if (imgCollection[j].parentElement.id!==movingFigure.parentElement.id){
-                            imgCollection[j].classList.remove(`active`);
+                select);
+            for (let cell = 0; cell < this.cellElements.length; cell++) {
+                this.cellElements[cell].addEventListener(`click`,
+                    (e) => {
+                        if (imgCollection[i].classList.contains(`active`)&&imgCollection[i]
+                            .parentElement.id!==this.cellElements[cell].id) {
+                            this.selectedFigure = imgCollection[i];
+                            console.dir(this.selectedFigure);
+                            this.selectedCell = e.target;
+                            console.dir(this.selectedCell);
+                            this.selectedFigure.parentElement.removeChild(this.selectedFigure);
+                            this.selectedCell.appendChild(this.selectedFigure);
                         }
-                    }
-                    console.dir(movingFigure.classList);
-                });
+                    });
+            }
         }
+
+        function select(event) {
+            const movingFigure = event.target;
+            movingFigure.classList.toggle(`active`);
+
+            for (let j = 0; j < imgCollection.length; j++) {
+                console.log(imgCollection[j].parentElement.id);
+                if (imgCollection[j].parentElement.id !== movingFigure.parentElement.id) {
+                    imgCollection[j].classList.remove(`active`);
+                }
+            }
+            console.dir(movingFigure.classList);
+
+
+        }
+
+        /*function moveFigure(e) {
+            let selectedCell = e.target;
+                if (true) {
+                    document.querySelector(`active`).parentNode.removeChild();
+                    selectedCell.appendChild(selectedFigure);
+                } else {
+                    alert(`impossible movement`)
+                }
+                    }*/
+
     },
+
 };
 document.onload = initChess.renderBoard();
 document.onload = initChess.initFigures();
 document.onload = initChess.focus();
+
